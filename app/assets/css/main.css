@@ -1,0 +1,170 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Sanaya Academy — design tokens (ported from the React version)
+   ============================================================ */
+
+@theme {
+  /* Typography */
+  --font-sans: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+
+  /* Ink */
+  --color-ink: #16241d;
+  --color-ink-soft: #3f5148;
+  --color-ink-muted: #6b7d73;
+
+  /* Green */
+  --color-green-50: #eef5f1;
+  --color-green-100: #d8e8df;
+  --color-green-200: #b2d0c1;
+  --color-green-300: #7fb39b;
+  --color-green-400: #4b8f74;
+  --color-green-500: #2b7256;
+  --color-green-600: #0f4c3a;
+  --color-green-700: #0b3a2c;
+  --color-green-800: #082a20;
+
+  /* Teal */
+  --color-teal-50: #eef6f5;
+  --color-teal-100: #d6ebe8;
+  --color-teal-200: #a9d7d0;
+  --color-teal-300: #6fbcb1;
+  --color-teal-400: #2f8f83;
+  --color-teal-500: #256f66;
+
+  /* Gold */
+  --color-gold-50: #faf3e6;
+  --color-gold-100: #f3e5c8;
+  --color-gold-200: #e6cd96;
+  --color-gold-300: #d6b263;
+  --color-gold-400: #c8963e;
+  --color-gold-500: #a97a2c;
+
+  /* Sand */
+  --color-sand-50: #fbf7f0;
+  --color-sand-100: #f6efe2;
+  --color-sand-200: #ece1cc;
+  --color-sand-300: #ddcdb0;
+
+  /* Sage */
+  --color-sage-100: #eff3ec;
+  --color-sage-200: #dde5d8;
+  --color-sage-300: #bfcfb8;
+
+  /* Radii */
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.75rem;
+  --radius-organic: 2.25rem;
+
+  /* Shadows */
+  --shadow-soft: 0 1px 2px rgba(15, 76, 58, 0.04), 0 12px 32px -18px rgba(15, 76, 58, 0.18);
+  --shadow-lifted: 0 2px 4px rgba(15, 76, 58, 0.05), 0 24px 48px -24px rgba(15, 76, 58, 0.24);
+
+  /* Easing */
+  --ease-calm: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* Scroll-reveal easing */
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  font-family: var(--font-arabic);
+  background-color: var(--color-sand-50);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle Islamic-inspired texture — reads as paper grain, not decoration */
+.sanaya-texture {
+  background-image: radial-gradient(rgba(15, 76, 58, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.sanaya-focus:focus-visible {
+  outline: 2px solid var(--color-green-600);
+  outline-offset: 3px;
+  border-radius: 9999px;
+}
+
+/* ============================================================
+   Scroll reveal — one system, GPU-friendly (opacity + transform)
+   ============================================================
+   `UiReveal` bakes these classes into SSR markup so above-the-fold
+   content is already hidden at first paint (no flash), and a <noscript>
+   style un-hides everything for JS-disabled visitors. */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.65s var(--ease-reveal),
+    transform 0.65s var(--ease-reveal);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-fade-down {
+  transform: translateY(-24px);
+}
+
+.reveal-fade-left {
+  transform: translateX(-30px);
+}
+
+.reveal-fade-right {
+  transform: translateX(30px);
+}
+
+.reveal-fade {
+  transform: none;
+}
+
+.reveal-scale {
+  transform: scale(0.96);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Mobile: directional reveals collapse to a simple rise */
+@media (max-width: 1023px) {
+  .reveal-fade-left,
+  .reveal-fade-right {
+    transform: translateY(24px);
+  }
+}
+
+/* Reduced motion: content must be immediately visible and static */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

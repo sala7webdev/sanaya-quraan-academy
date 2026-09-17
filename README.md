@@ -1,1 +1,0 @@
-# sanaya-quraan-academy
